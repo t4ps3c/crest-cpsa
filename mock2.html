@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREST CPSA Hard Scenario-Based Mock Exam Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            padding-top: 100px; /* Space for fixed header */
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 1.5em;
+        }
+        #timer {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 5px 0;
+            color: #d9534f;
+        }
+        .content {
+            margin: 20px;
+        }
+        .question {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question p {
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        #submit-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #submit-btn:hover {
+            background-color: #4cae4c;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            display: none;
+        }
+        .wrong-answer {
+            background-color: #f2dede; /* Light red for wrong answers */
+            border: 1px solid #ebccd1;
+        }
+        .feedback {
+            color: #d9534f; /* Red text for feedback */
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CREST CPSA Hard Scenario-Based Mock Exam Simulator</h1>
+        <div id="timer">Time Remaining: 02:00:00</div>
+    </div>
+    <form id="exam-form">
+        <!-- Section 1: Soft Skills and Assessment Management -->
+        <div class="question">
+            <p>1. During a pentest, you crash a client’s production server, causing 2 hours of downtime. The RoE allowed testing but didn’t specify downtime limits. What’s the next step?</p>
+            <div class="options">
+                <label><input type="radio" name="q1" value="A"> A) Hide the incident in the report</label>
+                <label><input type="radio" name="q1" value="B"> B) Notify the client immediately and offer mitigation</label>
+                <label><input type="radio" name="q1" value="C"> C) Blame the server’s weak config</label>
+                <label><input type="radio" name="q1" value="D"> D) Continue testing silently</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>2. A client demands you test their cloud provider’s infrastructure, but the provider isn’t in the scope. Legal action looms if you proceed. What’s the primary risk?</p>
+            <div class="options">
+                <label><input type="radio" name="q2" value="A"> A) Client sues for incomplete testing</label>
+                <label><input type="radio" name="q2" value="B"> B) Provider sues for unauthorized access</label>
+                <label><input type="radio" name="q2" value="C"> C) Tools flag false positives</label>
+                <label><input type="radio" name="q2" value="D"> D) Report delays escalate tensions</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>3. Mid-test, you find PII leaked to a public Pastebin. GDPR applies, but the client forbids external disclosure. What’s the best action?</p>
+            <div class="options">
+                <label><input type="radio" name="q3" value="A"> A) Alert authorities anonymously</label>
+                <label><input type="radio" name="q3" value="B"> B) Inform the client and suggest they report it</label>
+                <label><input type="radio" name="q3" value="C"> C) Delete the Pastebin post yourself</label>
+                <label><input type="radio" name="q3" value="D"> D) Exclude it from findings</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>4. A non-technical CEO misreads your report, thinking a low-risk XSS is a “server hack.” What’s the clearest correction?</p>
+            <div class="options">
+                <label><input type="radio" name="q4" value="A"> A) Show raw HTTP logs</label>
+                <label><input type="radio" name="q4" value="B"> B) Use a car theft analogy for impact</label>
+                <label><input type="radio" name="q4" value="C"> C) Blame the scanner’s CVSS score</label>
+                <label><input type="radio" name="q4" value="D"> D) Retract the finding</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>5. You spot illegal content on a client’s server during a test. The RoE doesn’t cover this. What’s the main legal concern?</p>
+            <div class="options">
+                <label><input type="radio" name="q5" value="A"> A) Report to police without client consent</label>
+                <label><input type="radio" name="q5" value="B"> B) Wipe the data to protect them</label>
+                <label><input type="radio" name="q5" value="C"> C) Notify the client and document it</label>
+                <label><input type="radio" name="q5" value="D"> D) Ignore it to stay in scope</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>6. A client needs a report in 12 hours, but full exploit verification takes 48. Half the vulns are unconfirmed. What’s the best compromise?</p>
+            <div class="options">
+                <label><input type="radio" name="q6" value="A"> A) Submit unverified findings with caveats</label>
+                <label><input type="radio" name="q6" value="B"> B) Delay and risk their audit deadline</label>
+                <label><input type="radio" name="q6" value="C"> C) Outsource verification</label>
+                <label><input type="radio" name="q6" value="D"> D) Fake the results</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>7. You accidentally email test data (including PII) to the wrong client contact, breaching GDPR. What’s the best response?</p>
+            <div class="options">
+                <label><input type="radio" name="q7" value="A"> A) Recall the email and hope</label>
+                <label><input type="radio" name="q7" value="B"> B) Notify the client and report the breach</label>
+                <label><input type="radio" name="q7" value="C"> C) Delete the email server logs</label>
+                <label><input type="radio" name="q7" value="D"> D) Claim it was encrypted</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>8. A scope expansion mid-test includes a vendor’s API, but they refuse consent. The client pushes you to proceed. What’s the likely outcome?</p>
+            <div class="options">
+                <label><input type="radio" name="q8" value="A"> A) API crashes from your scans</label>
+                <label><input type="radio" name="q8" value="B"> B) Vendor files a lawsuit</label>
+                <label><input type="radio" name="q8" value="C"> C) False negatives skew results</label>
+                <label><input type="radio" name="q8" value="D"> D) Client cancels the contract</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>9. A client denies a critical SQLi finding, saying their WAF blocks it. Your PoC bypasses it. What’s the strongest evidence?</p>
+            <div class="options">
+                <label><input type="radio" name="q9" value="A"> A) Cite OWASP rankings</label>
+                <label><input type="radio" name="q9" value="B"> B) Show the bypass live with approval</label>
+                <label><input type="radio" name="q9" value="C"> C) Drop the finding</label>
+                <label><input type="radio" name="q9" value="D"> D) Blame their WAF vendor</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>10. A CFO asks you to downplay vulnerabilities to pass a compliance audit. What’s the ethical challenge?</p>
+            <div class="options">
+                <label><input type="radio" name="q10" value="A"> A) Tweak severity but log it</label>
+                <label><input type="radio" name="q10" value="B"> B) Refuse and face job loss</label>
+                <label><input type="radio" name="q10" value="C"> C) Report them to CREST</label>
+                <label><input type="radio" name="q10" value="D"> D) Pass it to your manager</label>
+            </div>
+        </div>
+
+        <!-- Section 2: Core Technical Skills -->
+        <div class="question">
+            <p>11. A server receives a TCP packet with both SYN and FIN flags set during a pentest. What’s the expected behavior?</p>
+            <div class="options">
+                <label><input type="radio" name="q11" value="A"> A) Connection opens normally</label>
+                <label><input type="radio" name="q11" value="B"> B) Packet is dropped as invalid</label>
+                <label><input type="radio" name="q11" value="C"> C) Triggers a reset loop</label>
+                <label><input type="radio" name="q11" value="D"> D) Initiates a stealth scan</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>12. During a network scan, an ARP reply maps two IPs to one MAC address. What’s the likely cause?</p>
+            <div class="options">
+                <label><input type="radio" name="q12" value="A"> A) Proxy ARP in use</label>
+                <label><input type="radio" name="q12" value="B"> B) ARP spoofing underway</label>
+                <label><input type="radio" name="q12" value="C"> C) IP aliasing configured</label>
+                <label><input type="radio" name="q12" value="D"> D) Network bridge failure</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>13. You’re assigned a /29 subnet for testing. How many usable IPs are available, excluding network and broadcast?</p>
+            <div class="options">
+                <label><input type="radio" name="q13" value="A"> A) 6</label>
+                <label><input type="radio" name="q13" value="B"> B) 8</label>
+                <label><input type="radio" name="q13" value="C"> C) 4</label>
+                <label><input type="radio" name="q13" value="D"> D) 5</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>14. A target is flooded with UDP packets to port 0. What’s the system’s response?</p>
+            <div class="options">
+                <label><input type="radio" name="q14" value="A"> A) Silently discards them</label>
+                <label><input type="radio" name="q14" value="B"> B) Sends ICMP unreachable</label>
+                <label><input type="radio" name="q14" value="C"> C) Crashes the stack</label>
+                <label><input type="radio" name="q14" value="D"> D) Forwards to a random port</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>15. An IP packet’s TTL drops to 1 before reaching its final hop during a traceroute. What happens next?</p>
+            <div class="options">
+                <label><input type="radio" name="q15" value="A"> A) Packet loops indefinitely</label>
+                <label><input type="radio" name="q15" value="B"> B) Destination receives it</label>
+                <label><input type="radio" name="q15" value="C"> C) ICMP time exceeded sent</label>
+                <label><input type="radio" name="q15" value="D"> D) Fragmentation occurs</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>16. A TCP session persists despite mismatched sequence numbers during a test. What’s the probable explanation?</p>
+            <div class="options">
+                <label><input type="radio" name="q16" value="A"> A) NAT rewriting</label>
+                <label><input type="radio" name="q16" value="B"> B) Session hijacking</label>
+                <label><input type="radio" name="q16" value="C"> C) Packet retransmission</label>
+                <label><input type="radio" name="q16" value="D"> D) Firewall timeout</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>17. Port 123 traffic spikes on a server with no NTP service during a pentest. What’s the likely issue?</p>
+            <div class="options">
+                <label><input type="radio" name="q17" value="A"> A) NTP reflection attack</label>
+                <label><input type="radio" name="q17" value="B"> B) Misconfigured firewall</label>
+                <label><input type="radio" name="q17" value="C"> C) Backdoor using NTP port</label>
+                <label><input type="radio" name="q17" value="D"> D) Rogue time sync</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>18. A traceroute hop returns a TTL of 255 during testing. What does this indicate?</p>
+            <div class="options">
+                <label><input type="radio" name="q18" value="A"> A) Hop is the source</label>
+                <label><input type="radio" name="q18" value="B"> B) TTL reset by device</label>
+                <label><input type="radio" name="q18" value="C"> C) Packet spoofing</label>
+                <label><input type="radio" name="q18" value="D"> D) Infinite loop</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>19. An oversized IPv4 packet (70,000 bytes) is sent to a target. How does the network handle it?</p>
+            <div class="options">
+                <label><input type="radio" name="q19" value="A"> A) Truncated silently</label>
+                <label><input type="radio" name="q19" value="B"> B) Fragmented automatically</label>
+                <label><input type="radio" name="q19" value="C"> C) Rejected as invalid</label>
+                <label><input type="radio" name="q19" value="D"> D) Buffered for reassembly</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>20. TCP window scaling fails due to a middlebox during a high-bandwidth test. What’s the impact?</p>
+            <div class="options">
+                <label><input type="radio" name="q20" value="A"> A) Connection drops</label>
+                <label><input type="radio" name="q20" value="B"> B) Reduced throughput</label>
+                <label><input type="radio" name="q20" value="C"> C) Packet duplication</label>
+                <label><input type="radio" name="q20" value="D"> D) Infinite retransmissions</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>21. An ICMP redirect is accepted without validation during a test. What’s the primary risk?</p>
+            <div class="options">
+                <label><input type="radio" name="q21" value="A"> A) Traffic rerouting</label>
+                <label><input type="radio" name="q21" value="B"> B) DoS via loops</label>
+                <label><input type="radio" name="q21" value="C"> C) Data corruption</label>
+                <label><input type="radio" name="q21" value="D"> D) Bandwidth saturation</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>22. A SYN packet hits a closed port with ECN enabled during a scan. What’s the response?</p>
+            <div class="options">
+                <label><input type="radio" name="q22" value="A"> A) RST with ECN-Echo</label>
+                <label><input type="radio" name="q22" value="B"> B) Silent drop</label>
+                <label><input type="radio" name="q22" value="C"> C) SYN-ACK with congestion flag</label>
+                <label><input type="radio" name="q22" value="D"> D) ICMP unreachable</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>23. Port 161 traffic bypasses a firewall rule during testing. What’s the probable cause?</p>
+            <div class="options">
+                <label><input type="radio" name="q23" value="A"> A) SNMP tunneling</label>
+                <label><input type="radio" name="q23" value="B"> B) Rule precedence error</label>
+                <label><input type="radio" name="q23" value="C"> C) NAT misconfiguration</label>
+                <label><input type="radio" name="q23" value="D"> D) Spoofed source IP</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>24. A DHCP ACK offers an IP outside the defined pool during a network test. What’s the likely issue?</p>
+            <div class="options">
+                <label><input type="radio" name="q24" value="A"> A) Rogue DHCP server</label>
+                <label><input type="radio" name="q24" value="B"> B) Pool exhaustion</label>
+                <label><input type="radio" name="q24" value="C"> C) Client misconfiguration</label>
+                <label><input type="radio" name="q24" value="D"> D) Gateway conflict</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>25. An IGMP flood overwhelms a subnet during a pentest. What’s the main effect?</p>
+            <div class="options">
+                <label><input type="radio" name="q25" value="A"> A) Multicast overload</label>
+                <label><input type="radio" name="q25" value="B"> B) Unicast routing fails</label>
+                <label><input type="radio" name="q25" value="C"> C) ARP table corruption</label>
+                <label><input type="radio" name="q25" value="D"> D) DNS resolution delays</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>26. A TCP PSH flag appears mid-stream during a packet capture. What’s its purpose?</p>
+            <div class="options">
+                <label><input type="radio" name="q26" value="A"> A) Force data flush</label>
+                <label><input type="radio" name="q26" value="B"> B) Signal packet loss</label>
+                <label><input type="radio" name="q26" value="C"> C) Initiate closure</label>
+                <label><input type="radio" name="q26" value="D"> D) Mark retransmission</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>27. An IP fragment overlaps another during reassembly in a test. How does the system respond?</p>
+            <div class="options">
+                <label><input type="radio" name="q27" value="A"> A) Reassembles both</label>
+                <label><input type="radio" name="q27" value="B"> B) Drops the packet</label>
+                <label><input type="radio" name="q27" value="C"> C) Triggers an alert</label>
+                <label><input type="radio" name="q27" value="D"> D) Accepts the overlap</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>28. Port 514 traffic spikes on a server with no syslog service during a pentest. What’s the likely cause?</p>
+            <div class="options">
+                <label><input type="radio" name="q28" value="A"> A) Hidden logger</label>
+                <label><input type="radio" name="q28" value="B"> B) Spoofed syslog flood</label>
+                <label><input type="radio" name="q28" value="C"> C) Misconfigured client</label>
+                <label><input type="radio" name="q28" value="D"> D) Firewall bypass</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>29. A TCP session lacks ACKs but continues during a test. What’s the probable explanation?</p>
+            <div class="options">
+                <label><input type="radio" name="q29" value="A"> A) One-way traffic</label>
+                <label><input type="radio" name="q29" value="B"> B) Proxy interference</label>
+                <label><input type="radio" name="q29" value="C"> C) ACK suppression attack</label>
+                <label><input type="radio" name="q29" value="D"> D) NAT timeout</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>30. An IPv6 packet with a deprecated header is sent to a target. How is it handled?</p>
+            <div class="options">
+                <label><input type="radio" name="q30" value="A"> A) Forwarded normally</label>
+                <label><input type="radio" name="q30" value="B"> B) Dropped silently</label>
+                <label><input type="radio" name="q30" value="C"> C) Converted to IPv4</label>
+                <label><input type="radio" name="q30" value="D"> D) ICMP error returned</label>
+            </div>
+        </div>
+
+        <!-- Section 3: Information Gathering & Open Source -->
+        <div class="question">
+            <p>31. A WHOIS query for a target domain returns a privacy proxy during a pentest. What’s the next step?</p>
+            <div class="options">
+                <label><input type="radio" name="q31" value="A"> A) Check historical records</label>
+                <label><input type="radio" name="q31" value="B"> B) Scan the proxy IP</label>
+                <label><input type="radio" name="q31" value="C"> C) Ignore the domain</label>
+                <label><input type="radio" name="q31" value="D"> D) Brute-force DNS</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>32. A DNS TXT record reads “v=spf1 -all” for a target. What does this mean?</p>
+            <div class="options">
+                <label><input type="radio" name="q32" value="A"> A) All mail rejected</label>
+                <label><input type="radio" name="q32" value="B"> B) SPF disabled</label>
+                <label><input type="radio" name="q32" value="C"> C) Soft fail enabled</label>
+                <label><input type="radio" name="q32" value="D"> D) No mail servers</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>33. Shodan reveals a target device on port 7547 during recon. What’s the likely vulnerability?</p>
+            <div class="options">
+                <label><input type="radio" name="q33" value="A"> A) TR-069 exploit</label>
+                <label><input type="radio" name="q33" value="B"> B) SSH misconfig</label>
+                <label><input type="radio" name="q33" value="C"> C) HTTP exposure</label>
+                <label><input type="radio" name="q33" value="D"> D) SNMP default creds</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>34. Your Google dork “inurl:/admin filetype:php -inurl:login” yields no results for a target. What’s the best adjustment?</p>
+            <div class="options">
+                <label><input type="radio" name="q34" value="A"> A) Remove filetype</label>
+                <label><input type="radio" name="q34" value="B"> B) Add site:target.com</label>
+                <label><input type="radio" name="q34" value="C"> C) Use quotes around terms</label>
+                <label><input type="radio" name="q34" value="D"> D) Switch to Bing</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>35. A target’s robots.txt lists /backup/ during a web recon. What’s the primary risk?</p>
+            <div class="options">
+                <label><input type="radio" name="q35" value="A"> A) Exposed backups</label>
+                <label><input type="radio" name="q35" value="B"> B) Hidden login page</label>
+                <label><input type="radio" name="q35" value="C"> C) Decoy directory</label>
+                <label><input type="radio" name="q35" value="D"> D) Broken links</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>36. An MX record points to a non-existent IP during a pentest. What’s the likely issue?</p>
+            <div class="options">
+                <label><input type="radio" name="q36" value="A"> A) Mail server offline</label>
+                <label><input type="radio" name="q36" value="B"> B) DNS spoofing</label>
+                <label><input type="radio" name="q36" value="C"> C) Misconfigured failover</label>
+                <label><input type="radio" name="q36" value="D"> D) Phishing setup</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>37. A subdomain resolves to 127.0.0.1 during DNS enumeration. What does this suggest?</p>
+            <div class="options">
+                <label><input type="radio" name="q37" value="A"> A) Local testing remnant</label>
+                <label><input type="radio" name="q37" value="B"> B) DNS poisoning</label>
+                <label><input type="radio" name="q37" value="C"> C) Load balancer error</label>
+                <label><input type="radio" name="q37" value="D"> D) Intentional misdirect</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>38. A verbose HTTP 500 error leaks a stack trace from a target site. What’s the exploitable outcome?</p>
+            <div class="options">
+                <label><input type="radio" name="q38" value="A"> A) Path disclosure</label>
+                <label><input type="radio" name="q38" value="B"> B) XSS injection</label>
+                <label><input type="radio" name="q38" value="C"> C) CSRF attack</label>
+                <label><input type="radio" name="q38" value="D"> D) Session hijack</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>39. A target’s expired SSL cert triggers warnings during testing. What does this imply?</p>
+            <div class="options">
+                <label><input type="radio" name="q39" value="A"> A) Poor security maintenance</label>
+                <label><input type="radio" name="q39" value="B"> B) Active MITM attack</label>
+                <label><input type="radio" name="q39" value="C"> C) Strong encryption</label>
+                <label><input type="radio" name="q39" value="D"> D) Firewall misconfig</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>40. An HTTP TRACE request returns verbose headers from a target. What’s the vulnerability?</p>
+            <div class="options">
+                <label><input type="radio" name="q40" value="A"> A) Cross-site tracing</label>
+                <label><input type="radio" name="q40" value="B"> B) SQL injection</label>
+                <label><input type="radio" name="q40" value="C"> C) Weak auth</label>
+                <label><input type="radio" name="q40" value="D"> D) Encrypted payload</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>41. You need to map a target’s cloud assets during recon. Which tool works best?</p>
+            <div class="options">
+                <label><input type="radio" name="q41" value="A"> A) Fierce</label>
+                <label><input type="radio" name="q41" value="B"> B) Nmap</label>
+                <label><input type="radio" name="q41" value="C"> C) Burp Suite</label>
+                <label><input type="radio" name="q41" value="D"> D) Maltego</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>42. A target’s phpinfo() page is publicly accessible during a test. What’s the main exposure?</p>
+            <div class="options">
+                <label><input type="radio" name="q42" value="A"> A) Session hijacking</label>
+                <label><input type="radio" name="q42" value="B"> B) Information disclosure</label>
+                <label><input type="radio" name="q42" value="C"> C) CSRF exploitation</label>
+                <label><input type="radio" name="q42" value="D"> D) Buffer overflow</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>43. A target’s LinkedIn page reveals office locations during OSINT. What’s the primary use?</p>
+            <div class="options">
+                <label><input type="radio" name="q43" value="A"> A) Physical attack planning</label>
+                <label><input type="radio" name="q43" value="B"> B) WHOIS verification</label>
+                <label><input type="radio" name="q43" value="C"> C) Email harvesting</label>
+                <label><input type="radio" name="q43" value="D"> D) DNS brute-forcing</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>44. An NS record misconfiguration is found during DNS recon. What’s the potential exploit?</p>
+            <div class="options">
+                <label><input type="radio" name="q44" value="A"> A) DNS spoofing</label>
+                <label><input type="radio" name="q44" value="B"> B) ARP poisoning</label>
+                <label><input type="radio" name="q44" value="C"> C) Session fixation</label>
+                <label><input type="radio" name="q44" value="D"> D) Packet sniffing</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>45. You need to passively identify a target’s tech stack during a pentest. What’s the best method?</p>
+            <div class="options">
+                <label><input type="radio" name="q45" value="A"> A) Banner grabbing</label>
+                <label><input type="radio" name="q45" value="B"> B) Wappalyzer analysis</label>
+                <label><input type="radio" name="q45" value="C"> C) Port scanning</label>
+                <label><input type="radio" name="q45" value="D"> D) Packet injection</label>
+            </div>
+        </div>
+
+        <!-- Section 4: Networking Equipment -->
+        <div class="question">
+            <p>46. An SNMPv3 trap logs an authentication failure on a router during a test. What’s the likely cause?</p>
+            <div class="options">
+                <label><input type="radio" name="q46" value="A"> A) Device reboot</label>
+                <label><input type="radio" name="q46" value="B"> B) Unauthorized access attempt</label>
+                <label><input type="radio" name="q46" value="C"> C) Network congestion</label>
+                <label><input type="radio" name="q46" value="D"> D) Firmware update</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>47. A switch’s MAC table overflows during a pentest. What’s the best defense?</p>
+            <div class="options">
+                <label><input type="radio" name="q47" value="A"> A) Port security</label>
+                <label><input type="radio" name="q47" value="B"> B) VLAN tagging</label>
+                <label><input type="radio" name="q47" value="C"> C) Spanning Tree</label>
+                <label><input type="radio" name="q47" value="D"> D) QoS policies</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>48. A router accepts unverified BGP updates during a test. What’s the primary vulnerability?</p>
+            <div class="options">
+                <label><input type="radio" name="q48" value="A"> A) Weak encryption</label>
+                <label><input type="radio" name="q48" value="B"> B) Trust in routing updates</label>
+                <label><input type="radio" name="q48" value="C"> C) MAC spoofing</label>
+                <label><input type="radio" name="q48" value="D"> D) ARP cache</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>49. You need to secure CLI access to a Cisco switch during a test. Which protocol is best?</p>
+            <div class="options">
+                <label><input type="radio" name="q49" value="A"> A) SNMPv2</label>
+                <label><input type="radio" name="q49" value="B"> B) SSHv2</label>
+                <label><input type="radio" name="q49" value="C"> C) Telnet</label>
+                <label><input type="radio" name="q49" value="D"> D) HTTP</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>50. STP recalculations spike on a network during testing. What’s the likely issue?</p>
+            <div class="options">
+                <label><input type="radio" name="q50" value="A"> A) Stable topology</label>
+                <label><input type="radio" name="q50" value="B"> B) Network instability</label>
+                <label><input type="radio" name="q50" value="C"> C) Bandwidth saturation</label>
+                <label><input type="radio" name="q50" value="D"> D) Firewall blocking</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>51. A network device uses default creds during a pentest. What’s the main attack vector?</p>
+            <div class="options">
+                <label><input type="radio" name="q51" value="A"> A) Brute force</label>
+                <label><input type="radio" name="q51" value="B"> B) VLAN hopping</label>
+                <label><input type="radio" name="q51" value="C"> C) MAC flooding</label>
+                <label><input type="radio" name="q51" value="D"> D) DHCP starvation</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>52. A Layer 3 switch routes between VLANs during a test. What does it use?</p>
+            <div class="options">
+                <label><input type="radio" name="q52" value="A"> A) MAC addresses</label>
+                <label><input type="radio" name="q52" value="B"> B) IP addresses</label>
+                <label><input type="radio" name="q52" value="C"> C) Port numbers</label>
+                <label><input type="radio" name="q52" value="D"> D) Frame tags</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>53. You query SNMP OID 1.3.6.1.2.1.1.3.0 on a device during a pentest. What’s revealed?</p>
+            <div class="options">
+                <label><input type="radio" name="q53" value="A"> A) Device uptime</label>
+                <label><input type="radio" name="q53" value="B"> B) Interface traffic</label>
+                <label><input type="radio" name="q53" value="C"> C) CPU usage</label>
+                <label><input type="radio" name="q53" value="D"> D) Memory stats</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>54. A NAT rule exposes internal IPs during a test. What’s the primary exposure?</p>
+            <div class="options">
+                <label><input type="radio" name="q54" value="A"> A) Internal IP ranges</label>
+                <label><input type="radio" name="q54" value="B"> B) Public DNS records</label>
+                <label><input type="radio" name="q54" value="C"> C) Encrypted traffic</label>
+                <label><input type="radio" name="q54" value="D"> D) MAC tables</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>55. A router needs to detect link failures fast during a pentest. Which protocol helps?</p>
+            <div class="options">
+                <label><input type="radio" name="q55" value="A"> A) OSPF</label>
+                <label><input type="radio" name="q55" value="B"> B) RIP</label>
+                <label><input type="radio" name="q55" value="C"> C) BFD</label>
+                <label><input type="radio" name="q55" value="D"> D) EIGRP</label>
+            </div>
+        </div>
+
+        <!-- Section 5: Microsoft Windows Security -->
+        <div class="question">
+            <p>56. You extract an NTLM hash and authenticate without a password during a test. What attack succeeded?</p>
+            <div class="options">
+                <label><input type="radio" name="q56" value="A"> A) Pass-the-hash</label>
+                <label><input type="radio" name="q56" value="B"> B) Golden Ticket</label>
+                <label><input type="radio" name="q56" value="C"> C) Kerberoasting</label>
+                <label><input type="radio" name="q56" value="D"> D) Token impersonation</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>57. Event ID 4672 appears in a Windows log during a pentest. What’s the likely event?</p>
+            <div class="options">
+                <label><input type="radio" name="q57" value="A"> A) User login</label>
+                <label><input type="radio" name="q57" value="B"> B) Privilege escalation attempt</label>
+                <label><input type="radio" name="q57" value="C"> C) Group membership change</label>
+                <label><input type="radio" name="q57" value="D"> D) File access</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>58. You need to block outbound SMB traffic on a Windows server during a test. Which command works?</p>
+            <div class="options">
+                <label><input type="radio" name="q58" value="A"> A) netsh advfirewall</label>
+                <label><input type="radio" name="q58" value="B"> B) net stop lanmanserver</label>
+                <label><input type="radio" name="q58" value="C"> C) sc config firewall</label>
+                <label><input type="radio" name="q58" value="D"> D) ipconfig /release</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>59. A Windows machine’s HKEY_USERS hive is accessed during a test. What’s stored there?</p>
+            <div class="options">
+                <label><input type="radio" name="q59" value="A"> A) System configs</label>
+                <label><input type="radio" name="q59" value="B"> B) User-specific settings</label>
+                <label><input type="radio" name="q59" value="C"> C) Hardware profiles</label>
+                <label><input type="radio" name="q59" value="D"> D) File associations</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>60. Credential Guard is enabled on a target during a pentest. What’s protected?</p>
+            <div class="options">
+                <label><input type="radio" name="q60" value="A"> A) Physical access</label>
+                <label><input type="radio" name="q60" value="B"> B) Memory-stored credentials</label>
+                <label><input type="radio" name="q60" value="C"> C) Network traffic</label>
+                <label><input type="radio" name="q60" value="D"> D) File encryption</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>61. You need to list domain admins on a Windows network during a test. Which PowerShell cmdlet works?</p>
+            <div class="options">
+                <label><input type="radio" name="q61" value="A"> A) Get-ADUser</label>
+                <label><input type="radio" name="q61" value="B"> B) Get-NetGroupMember</label>
+                <label><input type="radio" name="q61" value="C"> C) Get-Service</label>
+                <label><input type="radio" name="q61" value="D"> D) Get-Process</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>62. An unpatched Windows server falls to an SMBv1 exploit during a test. What’s the likely vuln?</p>
+            <div class="options">
+                <label><input type="radio" name="q62" value="A"> A) EternalBlue</label>
+                <label><input type="radio" name="q62" value="B"> B) BlueKeep</label>
+                <label><input type="radio" name="q62" value="C"> C) DoublePulsar</label>
+                <label><input type="radio" name="q62" value="D"> D) Shadow Brokers</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>63. A Windows app crashes with a buffer overflow during testing. What mitigates this?</p>
+            <div class="options">
+                <label><input type="radio" name="q63" value="A"> A) UAC</label>
+                <label><input type="radio" name="q63" value="B"> B) DEP</label>
+                <label><input type="radio" name="q63" value="C"> C) BitLocker</label>
+                <label><input type="radio" name="q63" value="D"> D) EFS</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>64. You run `net view` on a Windows host during a pentest. What’s revealed?</p>
+            <div class="options">
+                <label><input type="radio" name="q64" value="A"> A) Open ports</label>
+                <label><input type="radio" name="q64" value="B"> B) Network shares</label>
+                <label><input type="radio" name="q64" value="C"> C) Running processes</label>
+                <label><input type="radio" name="q64" value="D"> D) Firewall status</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>65. Weak Group Policy settings allow local admin reuse during a test. What’s the attack?</p>
+            <div class="options">
+                <label><input type="radio" name="q65" value="A"> A) Golden Ticket</label>
+                <label><input type="radio" name="q65" value="B"> B) Pass-the-Ticket</label>
+                <label><input type="radio" name="q65" value="C"> C) LAPS bypass</label>
+                <label><input type="radio" name="q65" value="D"> D) Kerberoasting</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>66. Event ID 1102 appears in a Windows Security log during a test. What occurred?</p>
+            <div class="options">
+                <label><input type="radio" name="q66" value="A"> A) Log cleared</label>
+                <label><input type="radio" name="q66" value="B"> B) User login</label>
+                <label><input type="radio" name="q66" value="C"> C) Service start</label>
+                <label><input type="radio" name="q66" value="D"> D) Policy update</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>67. WinRM is active on a Windows server during a pentest. Which protocol is used?</p>
+            <div class="options">
+                <label><input type="radio" name="q67" value="A"> A) SMB</label>
+                <label><input type="radio" name="q67" value="B"> B) HTTP/HTTPS</label>
+                <label><input type="radio" name="q67" value="C"> C) RDP</label>
+                <label><input type="radio" name="q67" value="D"> D) FTP</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>68. A misconfigured SYSVOL share leaks data during a test. What’s exposed?</p>
+            <div class="options">
+                <label><input type="radio" name="q68" value="A"> A) User passwords</label>
+                <label><input type="radio" name="q68" value="B"> B) Group Policy scripts</label>
+                <label><input type="radio" name="q68" value="C"> C) System logs</label>
+                <label><input type="radio" name="q68" value="D"> D) Registry hives</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>69. You dump NTLM hashes from LSASS during a Windows pentest. Which tool works?</p>
+            <div class="options">
+                <label><input type="radio" name="q69" value="A"> A) Procmon</label>
+                <label><input type="radio" name="q69" value="B"> B) Mimikatz</label>
+                <label><input type="radio" name="q69" value="C"> C) Sysinternals Suite</label>
+                <label><input type="radio" name="q69" value="D"> D) PowerShell</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>70. Secure Boot is enabled on a Windows target during testing. What’s prevented?</p>
+            <div class="options">
+                <label><input type="radio" name="q70" value="A"> A) Malware at boot time</label>
+                <label><input type="radio" name="q70" value="B"> B) Network attacks</label>
+                <label><input type="radio" name="q70" value="C"> C) Credential theft</label>
+                <label><input type="radio" name="q70" value="D"> D) File tampering</label>
+            </div>
+        </div>
+
+        <!-- Section 6: Unix Security -->
+        <div class="question">
+            <p>71. A binary with permissions 4755 runs as root during a Unix test. What’s enabled?</p>
+            <div class="options">
+                <label><input type="radio" name="q71" value="A"> A) Execution by all users</label>
+                <label><input type="radio" name="q71" value="B"> B) Root privileges for execution</label>
+                <label><input type="radio" name="q71" value="C"> C) Read-only access</label>
+                <label><input type="radio" name="q71" value="D"> D) Group ownership</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>72. Sudo commands are logged on a Unix server during a pentest. Where are they stored?</p>
+            <div class="options">
+                <label><input type="radio" name="q72" value="A"> A) /var/log/auth.log</label>
+                <label><input type="radio" name="q72" value="B"> B) /etc/sudoers</label>
+                <label><input type="radio" name="q72" value="C"> C) /var/log/syslog</label>
+                <label><input type="radio" name="q72" value="D"> D) /var/log/secure</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>73. A directory has a sticky bit set during a Unix test. What’s prevented?</p>
+            <div class="options">
+                <label><input type="radio" name="q73" value="A"> A) File execution</label>
+                <label><input type="radio" name="q73" value="B"> B) Unauthorized deletion</label>
+                <label><input type="radio" name="q73" value="C"> C) Permission changes</label>
+                <label><input type="radio" name="q73" value="D"> D) Symbolic linking</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>74. You need to see open file descriptors for a process during a Unix pentest. Which command works?</p>
+            <div class="options">
+                <label><input type="radio" name="q74" value="A"> A) lsof</label>
+                <label><input type="radio" name="q74" value="B"> B) netstat</label>
+                <label><input type="radio" name="q74" value="C"> C) ps</label>
+                <label><input type="radio" name="q74" value="D"> D) top</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>75. A PAM module is misconfigured on a Unix server during a test. What’s the risk?</p>
+            <div class="options">
+                <label><input type="radio" name="q75" value="A"> A) Privilege escalation</label>
+                <label><input type="radio" name="q75" value="B"> B) Network sniffing</label>
+                <label><input type="radio" name="q75" value="C"> C) File corruption</label>
+                <label><input type="radio" name="q75" value="D"> D) DNS spoofing</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>76. Weak SSH key pairs are found on a Unix target during a pentest. What’s the attack?</p>
+            <div class="options">
+                <label><input type="radio" name="q76" value="A"> A) Brute force</label>
+                <label><input type="radio" name="q76" value="B"> B) Key factoring</label>
+                <label><input type="radio" name="q76" value="C"> C) Man-in-the-middle</label>
+                <label><input type="radio" name="q76" value="D"> D) Session hijacking</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>77. The `auditd` daemon is active on a Unix server during a test. What’s monitored?</p>
+            <div class="options">
+                <label><input type="radio" name="q77" value="A"> A) Network traffic</label>
+                <label><input type="radio" name="q77" value="B"> B) System calls</label>
+                <label><input type="radio" name="q77" value="C"> C) File permissions</label>
+                <label><input type="radio" name="q77" value="D"> D) User logins</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>78. You need to restrict a Unix user to SFTP only during a test. Which command applies?</p>
+            <div class="options">
+                <label><input type="radio" name="q78" value="A"> A) chroot</label>
+                <label><input type="radio" name="q78" value="B"> B) usermod -s /bin/false</label>
+                <label><input type="radio" name="q78" value="C"> C) ForceCommand internal-sftp</label>
+                <label><input type="radio" name="q78" value="D"> D) chmod 700</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>79. A Unix server shows high load but low CPU use during a pentest. What’s the issue?</p>
+            <div class="options">
+                <label><input type="radio" name="q79" value="A"> A) I/O bottlenecks</label>
+                <label><input type="radio" name="q79" value="B"> B) Memory exhaustion</label>
+                <label><input type="radio" name="q79" value="C"> C) Network latency</label>
+                <label><input type="radio" name="q79" value="D"> D) Process crashes</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>80. You need to harden kernel parameters at boot on a Unix target during a test. Which file is edited?</p>
+            <div class="options">
+                <label><input type="radio" name="q80" value="A"> A) /etc/sysctl.conf</label>
+                <label><input type="radio" name="q80" value="B"> B) /etc/fstab</label>
+                <label><input type="radio" name="q80" value="C"> C) /boot/grub.conf</label>
+                <label><input type="radio" name="q80" value="D"> D) /etc/inittab</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>81. You trace a process’s system calls on a Unix server during a pentest. Which tool works?</p>
+            <div class="options">
+                <label><input type="radio" name="q81" value="A"> A) strace</label>
+                <label><input type="radio" name="q81" value="B"> B) netstat</label>
+                <label><input type="radio" name="q81" value="C"> C) ps</label>
+                <label><input type="radio" name="q81" value="D"> D) top</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>82. A misconfigured cron job runs as root during a Unix test. What’s the exploit?</p>
+            <div class="options">
+                <label><input type="radio" name="q82" value="A"> A) Privilege escalation</label>
+                <label><input type="radio" name="q82" value="B"> B) Buffer overflow</label>
+                <label><input type="radio" name="q82" value="C"> C) SQL injection</label>
+                <label><input type="radio" name="q82" value="D"> D) ARP spoofing</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>83. AppArmor is enabled on a Unix target during a test. What’s enforced?</p>
+            <div class="options">
+                <label><input type="radio" name="q83" value="A"> A) File encryption</label>
+                <label><input type="radio" name="q83" value="B"> B) Mandatory access controls</label>
+                <label><input type="radio" name="q83" value="C"> C) Network filtering</label>
+                <label><input type="radio" name="q83" value="D"> D) User authentication</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>84. You need to find SUID binaries on a Unix system during a pentest. Which command works?</p>
+            <div class="options">
+                <label><input type="radio" name="q84" value="A"> A) find / -perm -4000</label>
+                <label><input type="radio" name="q84" value="B"> B) ls -la</label>
+                <label><input type="radio" name="q84" value="C"> C) stat -c %A</label>
+                <label><input type="radio" name="q84" value="D"> D) grep -r suid</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>85. A Unix server uses a umask of 000 during a test. What’s exposed?</p>
+            <div class="options">
+                <label><input type="radio" name="q85" value="A"> A) Open ports</label>
+                <label><input type="radio" name="q85" value="B"> B) Permissive file permissions</label>
+                <label><input type="radio" name="q85" value="C"> C) Kernel vulnerabilities</label>
+                <label><input type="radio" name="q85" value="D"> D) DNS leaks</label>
+            </div>
+        </div>
+
+        <!-- Section 7: Web Applications -->
+        <div class="question">
+            <p>86. An XML input parser on a web app leaks internal files during a test. What’s the attack?</p>
+            <div class="options">
+                <label><input type="radio" name="q86" value="A"> A) XXE</label>
+                <label><input type="radio" name="q86" value="B"> B) XSS</label>
+                <label><input type="radio" name="q86" value="C"> C) CSRF</label>
+                <label><input type="radio" name="q86" value="D"> D) SQLi</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>87. A web form uses POST without tokens and is exploited during a pentest. What’s the vulnerability?</p>
+            <div class="options">
+                <label><input type="radio" name="q87" value="A"> A) XSS</label>
+                <label><input type="radio" name="q87" value="B"> B) CSRF</label>
+                <label><input type="radio" name="q87" value="C"> C) SQLi</label>
+                <label><input type="radio" name="q87" value="D"> D) SSRF</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>88. A web app’s CSP header blocks inline scripts during a test. What’s mitigated?</p>
+            <div class="options">
+                <label><input type="radio" name="q88" value="A"> A) SQLi</label>
+                <label><input type="radio" name="q88" value="B"> B) XSS</label>
+                <label><input type="radio" name="q88" value="C"> C) Directory Traversal</label>
+                <label><input type="radio" name="q88" value="D"> D) Session Fixation</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>89. A web app allows ../ in file paths during a pentest. What’s the exploit?</p>
+            <div class="options">
+                <label><input type="radio" name="q89" value="A"> A) Local File Inclusion</label>
+                <label><input type="radio" name="q89" value="B"> B) XSS</label>
+                <label><input type="radio" name="q89" value="C"> C) CSRF</label>
+                <label><input type="radio" name="q89" value="D"> D) SQLi</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>90. A web server returns a 503 error during heavy testing. What’s the likely cause?</p>
+            <div class="options">
+                <label><input type="radio" name="q90" value="A"> A) Auth failure</label>
+                <label><input type="radio" name="q90" value="B"> B) Server overload</label>
+                <label><input type="radio" name="q90" value="C"> C) Resource not found</label>
+                <label><input type="radio" name="q90" value="D"> D) Bad request</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>91. A WAF fails to block duplicate parameters during a web test. What’s the bypass?</p>
+            <div class="options">
+                <label><input type="radio" name="q91" value="A"> A) HTTP parameter pollution</label>
+                <label><input type="radio" name="q91" value="B"> B) Session hijacking</label>
+                <label><input type="radio" name="q91" value="C"> C) Brute forcing</label>
+                <label><input type="radio" name="q91" value="D"> D) DNS tunneling</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>92. A web app sets SameSite cookies during a test. What’s prevented?</p>
+            <div class="options">
+                <label><input type="radio" name="q92" value="A"> A) XSS</label>
+                <label><input type="radio" name="q92" value="B"> B) CSRF</label>
+                <label><input type="radio" name="q92" value="C"> C) Session expiration</label>
+                <label><input type="radio" name="q92" value="D"> D) Cookie theft</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>93. A web form query allows command chaining during a pentest. What’s the vuln?</p>
+            <div class="options">
+                <label><input type="radio" name="q93" value="A"> A) Command Injection</label>
+                <label><input type="radio" name="q93" value="B"> B) SQLi</label>
+                <label><input type="radio" name="q93" value="C"> C) XSS</label>
+                <label><input type="radio" name="q93" value="D"> D) SSRF</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>94. A web app’s CORS allows all origins during a test. What’s exposed?</p>
+            <div class="options">
+                <label><input type="radio" name="q94" value="A"> A) Server logs</label>
+                <label><input type="radio" name="q94" value="B"> B) Cross-origin data access</label>
+                <label><input type="radio" name="q94" value="C"> C) File uploads</label>
+                <label><input type="radio" name="q94" value="D"> D) DB creds</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>95. A JWT on a web app uses a weak algorithm during a test. What’s the attack?</p>
+            <div class="options">
+                <label><input type="radio" name="q95" value="A"> A) Token replay</label>
+                <label><input type="radio" name="q95" value="B"> B) Algorithm confusion</label>
+                <label><input type="radio" name="q95" value="C"> C) Session fixation</label>
+                <label><input type="radio" name="q95" value="D"> D) CSRF</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>96. A web app returns 401 during a pentest. What’s required?</p>
+            <div class="options">
+                <label><input type="radio" name="q96" value="A"> A) Server restart</label>
+                <label><input type="radio" name="q96" value="B"> B) Valid credentials</label>
+                <label><input type="radio" name="q96" value="C"> C) Resource creation</label>
+                <label><input type="radio" name="q96" value="D"> D) Payload encryption</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>97. You test a web app for SSRF during a pentest. Which tool confirms it?</p>
+            <div class="options">
+                <label><input type="radio" name="q97" value="A"> A) Burp Collaborator</label>
+                <label><input type="radio" name="q97" value="B"> B) Nikto</label>
+                <label><input type="radio" name="q97" value="C"> C) Nmap</label>
+                <label><input type="radio" name="q97" value="D"> D) Wireshark</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>98. A web server exposes .htaccess during a test. What’s revealed?</p>
+            <div class="options">
+                <label><input type="radio" name="q98" value="A"> A) User passwords</label>
+                <label><input type="radio" name="q98" value="B"> B) Server configs</label>
+                <label><input type="radio" name="q98" value="C"> C) Session IDs</label>
+                <label><input type="radio" name="q98" value="D"> D) Encryption keys</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>99. A web app redirects to an attacker’s site during a test. What’s the vuln?</p>
+            <div class="options">
+                <label><input type="radio" name="q99" value="A"> A) Open Redirect</label>
+                <label><input type="radio" name="q99" value="B"> B) XSS</label>
+                <label><input type="radio" name="q99" value="C"> C) CSRF</label>
+                <label><input type="radio" name="q99" value="D"> D) SQLi</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>100. A web app’s error page leaks debug info during a pentest. What’s exposed?</p>
+            <div class="options">
+                <label><input type="radio" name="q100" value="A"> A) Debug information</label>
+                <label><input type="radio" name="q100" value="B"> B) User sessions</label>
+                <label><input type="radio" name="q100" value="C"> C) Network topology</label>
+                <label><input type="radio" name="q100" value="D"> D) Firewall rules</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>101. A web app enforces HTTPS via a header during a test. Which one?</p>
+            <div class="options">
+                <label><input type="radio" name="q101" value="A"> A) Strict-Transport-Security</label>
+                <label><input type="radio" name="q101" value="B"> B) X-Content-Type-Options</label>
+                <label><input type="radio" name="q101" value="C"> C) Referrer-Policy</label>
+                <label><input type="radio" name="q101" value="D"> D) X-XSS-Protection</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>102. A web app lets you access another user’s data during a test. What’s the vuln?</p>
+            <div class="options">
+                <label><input type="radio" name="q102" value="A"> A) Input validation</label>
+                <label><input type="radio" name="q102" value="B"> B) Authorization checks</label>
+                <label><input type="radio" name="q102" value="C"> C) Encryption</label>
+                <label><input type="radio" name="q102" value="D"> D) Rate limiting</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>103. A web app accepts HEAD overrides during a pentest. What’s the exploit?</p>
+            <div class="options">
+                <label><input type="radio" name="q103" value="A"> A) Method override</label>
+                <label><input type="radio" name="q103" value="B"> B) XSS</label>
+                <label><input type="radio" name="q103" value="C"> C) CSRF</label>
+                <label><input type="radio" name="q103" value="D"> D) SQLi</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>104. A web app’s session timeout is 24 hours during a test. What’s the risk?</p>
+            <div class="options">
+                <label><input type="radio" name="q104" value="A"> A) Session hijacking</label>
+                <label><input type="radio" name="q104" value="B"> B) Buffer overflow</label>
+                <label><input type="radio" name="q104" value="C"> C) File inclusion</label>
+                <label><input type="radio" name="q104" value="D"> D) DNS poisoning</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>105. A web app executes uploaded scripts during a pentest. What’s the vuln?</p>
+            <div class="options">
+                <label><input type="radio" name="q105" value="A"> A) Remote Code Execution</label>
+                <label><input type="radio" name="q105" value="B"> B) XSS</label>
+                <label><input type="radio" name="q105" value="C"> C) CSRF</label>
+                <label><input type="radio" name="q105" value="D"> D) SSRF</label>
+            </div>
+        </div>
+
+        <!-- Section 8: Databases -->
+        <div class="question">
+            <p>106. A DB query returns version info during a pentest. Which SQL function leaked it?</p>
+            <div class="options">
+                <label><input type="radio" name="q106" value="A"> A) @@VERSION</label>
+                <label><input type="radio" name="q106" value="B"> B) COUNT(*)</label>
+                <label><input type="radio" name="q106" value="C"> C) CONCAT()</label>
+                <label><input type="radio" name="q106" value="D"> D) SUBSTRING()</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>107. A web app’s DB delays responses during a test. What’s the attack type?</p>
+            <div class="options">
+                <label><input type="radio" name="q107" value="A"> A) Error-based SQLi</label>
+                <label><input type="radio" name="q107" value="B"> B) Blind SQLi</label>
+                <label><input type="radio" name="q107" value="C"> C) Direct SQLi</label>
+                <label><input type="radio" name="q107" value="D"> D) File-based SQLi</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>108. A DB on port 1433 falls to brute force during a pentest. Which DB is it?</p>
+            <div class="options">
+                <label><input type="radio" name="q108" value="A"> A) MySQL</label>
+                <label><input type="radio" name="q108" value="B"> B) PostgreSQL</label>
+                <label><input type="radio" name="q108" value="C"> C) MSSQL</label>
+                <label><input type="radio" name="q108" value="D"> D) Oracle</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>109. A web app’s query merges results during a test. What’s the SQLi type?</p>
+            <div class="options">
+                <label><input type="radio" name="q109" value="A"> A) UNION-based</label>
+                <label><input type="radio" name="q109" value="B"> B) Error-based</label>
+                <label><input type="radio" name="q109" value="C"> C) Blind</label>
+                <label><input type="radio" name="q109" value="D"> D) Out-of-band</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>110. A DB resists injection during a pentest. What’s the defense?</p>
+            <div class="options">
+                <label><input type="radio" name="q110" value="A"> A) Stored procedures</label>
+                <label><input type="radio" name="q110" value="B"> B) Triggers</label>
+                <label><input type="radio" name="q110" value="C"> C) Views</label>
+                <label><input type="radio" name="q110" value="D"> D) Indexes</label>
+            </div>
+        </div>
+
+        <!-- Section 9: Penetration Testing Tools -->
+        <div class="question">
+            <p>111. You scan a target for Heartbleed during a pentest. Which Nmap script works?</p>
+            <div class="options">
+                <label><input type="radio" name="q111" value="A"> A) ssl-heartbleed</label>
+                <label><input type="radio" name="q111" value="B"> B) http-enum</label>
+                <label><input type="radio" name="q111" value="C"> C) smb-vuln-ms17-010</label>
+                <label><input type="radio" name="q111" value="D"> D) dns-zone-transfer</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>112. You automate payloads on a web app during a test. Which Burp tool helps?</p>
+            <div class="options">
+                <label><input type="radio" name="q112" value="A"> A) Intruder</label>
+                <label><input type="radio" name="q112" value="B"> B) Repeater</label>
+                <label><input type="radio" name="q112" value="C"> C) Scanner</label>
+                <label><input type="radio" name="q112" value="D"> D) Proxy</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>113. An unpatched Windows server falls to MS17-010 during a test. Which Metasploit module works?</p>
+            <div class="options">
+                <label><input type="radio" name="q113" value="A"> A) exploit/windows/smb/ms17_010_eternalblue</label>
+                <label><input type="radio" name="q113" value="B"> B) exploit/multi/http/struts2_code_exec</label>
+                <label><input type="radio" name="q113" value="C"> C) auxiliary/scanner/ssh/ssh_login</label>
+                <label><input type="radio" name="q113" value="D"> D) exploit/linux/local/sudo</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>114. You run Nmap with -sC on a target during a pentest. What’s enabled?</p>
+            <div class="options">
+                <label><input type="radio" name="q114" value="A"> A) Custom port scanning</label>
+                <label><input type="radio" name="q114" value="B"> B) Default script scanning</label>
+                <label><input type="radio" name="q114" value="C"> C) Stealth SYN scan</label>
+                <label><input type="radio" name="q114" value="D"> D) UDP probing</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>115. You filter HTTP POST requests in a packet capture during a test. Which Wireshark filter applies?</p>
+            <div class="options">
+                <label><input type="radio" name="q115" value="A"> A) http.request.method == "POST"</label>
+                <label><input type="radio" name="q115" value="B"> B) tcp.port == 80</label>
+                <label><input type="radio" name="q115" value="C"> C) ip.src == 192.168.1.1</label>
+                <label><input type="radio" name="q115" value="D"> D) frame contains "POST"</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>116. Nessus ranks vulns by severity during a pentest. What’s used?</p>
+            <div class="options">
+                <label><input type="radio" name="q116" value="A"> A) CVSS scores</label>
+                <label><input type="radio" name="q116" value="B"> B) Scan duration</label>
+                <label><input type="radio" name="q116" value="C"> C) Port numbers</label>
+                <label><input type="radio" name="q116" value="D"> D) Tool version</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>117. You brute-force SSH with a password list during a test. Which Hydra option applies?</p>
+            <div class="options">
+                <label><input type="radio" name="q117" value="A"> A) -P</label>
+                <label><input type="radio" name="q117" value="B"> B) -L</label>
+                <label><input type="radio" name="q117" value="C"> C) -t</label>
+                <label><input type="radio" name="q117" value="D"> D) -s</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>118. Sqlmap extracts all DB contents during a pentest. Which option works?</p>
+            <div class="options">
+                <label><input type="radio" name="q118" value="A"> A) --dump-all</label>
+                <label><input type="radio" name="q118" value="B"> B) --schema</label>
+                <label><input type="radio" name="q118" value="C"> C) --users</label>
+                <label><input type="radio" name="q118" value="D"> D) --tables</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>119. You map Kerberos flaws in AD during a test. Which tool helps?</p>
+            <div class="options">
+                <label><input type="radio" name="q119" value="A"> A) BloodHound</label>
+                <label><input type="radio" name="q119" value="B"> B) Nmap</label>
+                <label><input type="radio" name="q119" value="C"> C) Nikto</label>
+                <label><input type="radio" name="q119" value="D"> D) Dirbuster</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>120. You craft a reverse shell with msfvenom during a pentest. What does -p specify?</p>
+            <div class="options">
+                <label><input type="radio" name="q120" value="A"> A) Payload type</label>
+                <label><input type="radio" name="q120" value="B"> B) Port number</label>
+                <label><input type="radio" name="q120" value="C"> C) Protocol</label>
+                <label><input type="radio" name="q120" value="D"> D) Platform</label>
+            </div>
+        </div>
+
+        <button type="submit" id="submit-btn">Submit Exam</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        // Timer (2 hours = 7200 seconds)
+        let timeLeft = 7200;
+        const timerDisplay = document.getElementById('timer');
+        const submitBtn = document.getElementById('submit-btn');
+        let timerId;
+
+        function updateTimer() {
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `Time Remaining: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                timerDisplay.textContent = "Time's Up!";
+                submitExam();
+            }
+            timeLeft--;
+        }
+
+        timerId = setInterval(updateTimer, 1000);
+
+        // Correct answers
+        const correctAnswers = {
+            q1: 'B', q2: 'B', q3: 'B', q4: 'B', q5: 'A', q6: 'A', q7: 'B', q8: 'B', q9: 'B', q10: 'B',
+            q11: 'B', q12: 'B', q13: 'A', q14: 'B', q15: 'C', q16: 'B', q17: 'C', q18: 'B', q19: 'C', q20: 'B',
+            q21: 'A', q22: 'A', q23: 'B', q24: 'A', q25: 'A', q26: 'A', q27: 'B', q28: 'B', q29: 'C', q30: 'B',
+            q31: 'A', q32: 'A', q33: 'A', q34: 'B', q35: 'A', q36: 'B', q37: 'D', q38: 'A', q39: 'A', q40: 'A',
+            q41: 'A', q42: 'B', q43: 'A', q44: 'A', q45: 'B',
+            q46: 'B', q47: 'A', q48: 'B', q49: 'B', q50: 'B', q51: 'A', q52: 'B', q53: 'A', q54: 'A', q55: 'C',
+            q56: 'A', q57: 'B', q58: 'A', q59: 'B', q60: 'B', q61: 'B', q62: 'A', q63: 'B', q64: 'B', q65: 'C',
+            q66: 'A', q67: 'B', q68: 'B', q69: 'B', q70: 'A',
+            q71: 'B', q72: 'A', q73: 'B', q74: 'A', q75: 'A', q76: 'B', q77: 'B', q78: 'C', q79: 'A', q80: 'A',
+            q81: 'A', q82: 'A', q83: 'B', q84: 'A', q85: 'B',
+            q86: 'A', q87: 'B', q88: 'B', q89: 'A', q90: 'B', q91: 'A', q92: 'B', q93: 'B', q94: 'B', q95: 'B',
+            q96: 'B', q97: 'A', q98: 'B', q99: 'A', q100: 'A', q101: 'A', q102: 'B', q103: 'A', q104: 'A', q105: 'A',
+            q106: 'A', q107: 'B', q108: 'C', q109: 'A', q110: 'A',
+            q111: 'A', q112: 'A', q113: 'A', q114: 'B', q115: 'A', q116: 'A', q117: 'A', q118: 'A', q119: 'A', q120: 'A'
+        };
+
+        // Handle form submission
+        document.getElementById('exam-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitExam();
+        });
+
+        function submitExam() {
+            clearInterval(timerId);
+            let score = 0;
+            const totalQuestions = 120;
+            const passMark = 72; // 60%
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const question = `q${i}`;
+                const selectedAnswer = document.querySelector(`input[name="${question}"]:checked`);
+                const questionDiv = document.querySelector(`input[name="${question}"]`).closest('.question');
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'feedback';
+
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === correctAnswers[question]) {
+                        score++;
+                    } else {
+                        questionDiv.classList.add('wrong-answer');
+                        feedbackDiv.textContent = `Correct Answer: ${correctAnswers[question]}`;
+                        questionDiv.appendChild(feedbackDiv);
+                    }
+                } else {
+                    questionDiv.classList.add('wrong-answer');
+                    feedbackDiv.textContent = `Correct Answer: ${correctAnswers[question]} (No answer selected)`;
+                    questionDiv.appendChild(feedbackDiv);
+                }
+            }
+
+            const percentage = (score / totalQuestions) * 100;
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `Score: ${score}/${totalQuestions} (${percentage.toFixed(2)}%)<br>`;
+            resultDiv.innerHTML += score >= passMark ? '<span style="color: #5cb85c;">Pass</span>' : '<span style="color: #d9534f;">Fail</span>';
+            submitBtn.disabled = true;
+        }
+    </script>
+</body>
+</html>
