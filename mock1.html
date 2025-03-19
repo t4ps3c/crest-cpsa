@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREST CPSA Mock Exam Simulator</title>
+    <title>CREST CPSA Mock Exam Simulator Part 1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
+            padding-top: 100px; /* Space for fixed header */
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         h1 {
             text-align: center;
-            color: #333;
+            margin: 10px 0;
+            font-size: 1.5em;
         }
         #timer {
             text-align: center;
             font-size: 1.2em;
-            margin-bottom: 20px;
+            margin: 5px 0;
             color: #d9534f;
+        }
+        .content {
+            margin: 20px;
         }
         .question {
             background-color: #fff;
@@ -54,11 +71,22 @@
             margin-top: 20px;
             display: none;
         }
+        .wrong-answer {
+            background-color: #f2dede; /* Light red for wrong answers */
+            border: 1px solid #ebccd1;
+        }
+        .feedback {
+            color: #d9534f; /* Red text for feedback */
+            font-style: italic;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
-    <h1>CREST CPSA Mock Exam Simulator</h1>
-    <div id="timer">Time Remaining: 02:00:00</div>
+    <div class="header">
+        <h1>CREST CPSA Mock Exam Simulator Part 1</h1>
+        <div id="timer">Time Remaining: 02:00:00</div>
+    </div>
     <form id="exam-form">
         <!-- Section 1: Soft Skills and Assessment Management (10 Questions) -->
         <div class="question">
